@@ -12,6 +12,8 @@ let connection = mysql.createConnection({
 let id;
 let quantity;
 let newQuantity;
+let total;
+let newTotal;
 
 connection.connect(function(err){
     if(err) throw err;
@@ -54,7 +56,8 @@ function initialPrompt(){
             if(err) throw err;
             if (quantity <= res[0].stock_quantity){
                 newQuantity = res[0].stock_quantity - quantity;
-                let total = quantity * res[0].price;
+                total = quantity * res[0].price;
+                newTotal = res[0].product_sales + total;
                 console.log("Thank you for your order! Your order total: ", total);
                 updateItem();
                 continuePrompt();
@@ -71,7 +74,8 @@ function updateItem(){
         "UPDATE products SET ? WHERE ?",
         [
             {
-                stock_quantity : newQuantity
+                stock_quantity : newQuantity,
+                product_sales: newTotal
             },
             {
                 item_id: id

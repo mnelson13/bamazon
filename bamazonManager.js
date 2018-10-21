@@ -121,10 +121,8 @@ function addProduct(){
             name: "name",
             message: "Enter product name: "
         },{
-            type: "list",
             name: "department",
-            message: "Choose product department: ",
-            choices: ["Electronics", "Clothing", "Books", "Food"]
+            message: "Enter product department: ",
         },{
             name: "price",
             message: "Enter product price: "
