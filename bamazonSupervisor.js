@@ -17,6 +17,7 @@ connection.connect(function(err){
     initialPrompt();
 });
 
+//initial prompt to ask what the Supervisor would like to do
 function initialPrompt(){
     inquirer.prompt([
         {
@@ -37,6 +38,7 @@ function initialPrompt(){
     })
 };
 
+//function to show sales, costs, and profits of each department
 function viewSales(){
     let table = new Table({
                 head: ["Department ID", "Department Name", "Over Head Costs", "Product Sales", "Total Profits"],
@@ -59,7 +61,7 @@ function viewSales(){
     })
 };
 
-
+//function to add a new department with first product
 function addDepartment(){
     inquirer.prompt([
         {

@@ -21,6 +21,7 @@ connection.connect(function(err){
     displayProducts();
 });
 
+//function to show available products and then start the first prompt
 function displayProducts(){
     console.log("Available products: ");
     connection.query("SELECT * FROM products", function(err, res){
@@ -39,6 +40,7 @@ function displayProducts(){
 }
 
 
+//first prompt that asks the customer what they would like to purchase and how many
 function initialPrompt(){
     inquirer.prompt([
         {
@@ -54,6 +56,7 @@ function initialPrompt(){
 
         connection.query("SELECT * FROM products WHERE item_id = '" + id + "'", function(err,res){
             if(err) throw err;
+            //if there is enough product in stock, the "purchase" will go through
             if (quantity <= res[0].stock_quantity){
                 newQuantity = res[0].stock_quantity - quantity;
                 total = quantity * res[0].price;
@@ -61,6 +64,7 @@ function initialPrompt(){
                 console.log("Thank you for your order! Your order total: ", total);
                 updateItem();
                 continuePrompt();
+            //if there is not enough product in stock, the "purchase" will not go through
             } else {
                 console.log("Insufficient Quantity!")
                 continuePrompt();
@@ -69,6 +73,7 @@ function initialPrompt(){
     })
 }
 
+//function to update the stock_quantity of the product purchased
 function updateItem(){
     connection.query(
         "UPDATE products SET ? WHERE ?",
@@ -87,6 +92,7 @@ function updateItem(){
     )
 }
 
+//function to ask the customer if they would like to make another purchase
 function continuePrompt(){
     inquirer.prompt([
         {

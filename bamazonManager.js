@@ -18,6 +18,7 @@ connection.connect(function(err){
     initialPrompt();
 });
 
+//initial prompt to ask what the manager would like to do
 function initialPrompt(){
     inquirer.prompt([
         {
@@ -43,6 +44,7 @@ function initialPrompt(){
     })
 }
 
+//function to display the products
 function displayProducts(){
     console.log("Available products: ");
     connection.query("SELECT * FROM products", function(err, res){
@@ -60,6 +62,7 @@ function displayProducts(){
     });
 }
 
+//function to show products who's inventory is less than 5
 function lowInventory(){
     console.log("Products with low Inventory: ");
     connection.query("SELECT * FROM products WHERE stock_quantity < 5", function(err, res){
@@ -78,6 +81,7 @@ function lowInventory(){
     initialPrompt()
 }
 
+//function to add inventory to a product
 function addInventory(){
     displayProducts();
     inquirer.prompt([
@@ -95,6 +99,7 @@ function addInventory(){
     })
 }
 
+//function to update the inventory of a product
 function updateItem(){
     connection.query(
         "UPDATE products SET ? WHERE ?",
@@ -114,7 +119,7 @@ function updateItem(){
     )
 }
 
-
+//function to add a new product
 function addProduct(){
     inquirer.prompt([
         {
