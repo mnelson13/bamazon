@@ -1,4 +1,4 @@
-# bamazon
+# Bamazon
 
 ### Features/Instructions:
 * Bamazon is a CLI storefront app
@@ -27,7 +27,7 @@
     * Selecting "View Product Sales by Department" will show a table of all departments and their profits
     ![image9](images/supervisor_deptView.png)
     * Selecting "Create New Department" will allow you to add a new department
-    ![image10](images/supervisor_addDept.png)
+    ![image11](images/supervisor_addDept2.png)
 
 ### Languages/Technologies Used:
 * JavaScript, Node.js, MySQL, Command Line

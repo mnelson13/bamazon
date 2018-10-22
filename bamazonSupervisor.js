@@ -44,7 +44,7 @@ function viewSales(){
                 head: ["Department ID", "Department Name", "Over Head Costs", "Product Sales", "Total Profits"],
             });
 
-    connection.query("SELECT d.department_id, d.department_name, d.over_head_costs, SUM(p.product_sales) AS product_sales FROM bamazonDB.products AS p JOIN bamazonDB.departments AS d ON p.department_name = d.department_name GROUP BY d.department_id, d.department_name, d.over_head_costs", function(err, res){
+    connection.query("SELECT d.department_id, d.department_name, d.over_head_costs, SUM(p.product_sales) AS product_sales FROM bamazonDB.products AS p RIGHT JOIN bamazonDB.departments AS d ON p.department_name = d.department_name GROUP BY d.department_id, d.department_name, d.over_head_costs", function(err, res){
         if(err) throw err;
         for(i in res){
             let id = res[i].department_id;
@@ -52,6 +52,11 @@ function viewSales(){
             let costs = res[i].over_head_costs;
             let sales = res[i].product_sales;
             let profit = sales - costs;
+
+            if(sales === null){
+                sales = 0;
+            }
+
             table.push([id, name, costs, sales, profit])
         }
 
@@ -70,22 +75,10 @@ function addDepartment(){
         },{
             name: "costs",
             message: "Enter over head costs: ",
-        },{
-            name: "product",
-            message: "Enter this department's first product: "
-        },{
-            name: "price",
-            message: "Enter product price: "
-        },{
-            name: "quantity",
-            message: "Enter product quantity: "
         }
     ]).then(function(answers){
         let deptName = answers.name;
         let costs = answers.costs;
-        let product = answers.product;
-        let price = answers.price;
-        let quantity = answers.quantity;
         
         console.log("Inserting a new department...\n");
         connection.query(
@@ -97,19 +90,6 @@ function addDepartment(){
             function(err, res){
                 if(err) throw err;
                 console.log(res.affectedRows + " departments inserted!\n");
-            }
-        )
-        connection.query(
-            "INSERT INTO products SET ?",
-            {
-                product_name: product,
-                department_name: deptName,
-                price: price,
-                stock_quantity: quantity
-            },
-            function(err, res){
-                if(err) throw err;
-                console.log(res.affectedRows + " items inserted!\n");
                 initialPrompt();
             }
         )
